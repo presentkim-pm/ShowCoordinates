@@ -10,6 +10,21 @@ use pocketmine\plugin\PluginBase;
 class ShowCoordinates extends PluginBase{
 	public const TAG_PLUGIN = "ShowCoordinates";
 
+	/** @var ShowCoordinates */
+	private static $instance;
+
+	/** @return ShowCoordinates */
+	public static function getInstance() : ShowCoordinates{
+		return self::$instance;
+	}
+
+	/**
+	 * Called when the plugin is loaded, before calling onEnable()
+	 */
+	public function onLoad() : void{
+		self::$instance = $this;
+	}
+
 	/**
 	 * Called when the plugin is enabled
 	 */
