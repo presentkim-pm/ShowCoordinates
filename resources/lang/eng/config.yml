@@ -1,0 +1,8 @@
+# Advanced configuration file for ShowCoordinates plugin
+# Some of these settings are safe, others can break your server if modified incorrectly
+# New settings/defaults won't appear automatically on this file when upgrading
+
+permission:
+  #Permission of main command
+  #You can change this to be what you want
+  main: "true"
