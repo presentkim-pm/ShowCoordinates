@@ -3,12 +3,28 @@
 namespace kim\present\showcoordinates\listener;
 
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\{
 	CommandRequestPacket, GameRulesChangedPacket
 };
 
 class PlayerEventListener implements Listener{
+	/**
+	 * @priority LOWEST
+	 *
+	 * @param PlayerJoinEvent $event
+	 */
+	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
+		$player = $event->getPlayer();
+
+		$pk = new GameRulesChangedPacket();
+		$pk->gameRules = [
+			"showcoordinates" => [1, $player->namedtag->getByte("ShowCoordinates", 0)]
+		];
+		$player->dataPacket($pk);
+	}
+
 	/**
 	 * @priority LOWEST
 	 *
