@@ -8,6 +8,8 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
 class ShowCoordinates extends PluginBase{
+	public const TAG_PLUGIN = "ShowCoordinates";
+
 	/**
 	 * Called when the plugin is enabled
 	 */
@@ -21,7 +23,7 @@ class ShowCoordinates extends PluginBase{
 	 * @param bool   $whether
 	 */
 	public final static function setShowCoordinates(Player $player, bool $whether){
-		$player->namedtag->setByte("ShowCoordinates", (int) $whether);
+		$player->namedtag->setByte(self::TAG_PLUGIN, (int) $whether);
 
 		$pk = new GameRulesChangedPacket();
 		$pk->gameRules = [

@@ -16,7 +16,7 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		ShowCoordinates::setShowCoordinates($player, (bool) $player->namedtag->getByte("ShowCoordinates", 0));
+		ShowCoordinates::setShowCoordinates($player, (bool) $player->namedtag->getByte(ShowCoordinates::TAG_PLUGIN, 0));
 	}
 
 	/**
