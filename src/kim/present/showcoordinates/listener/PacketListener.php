@@ -19,9 +19,11 @@ class PacketListener implements Listener{
 		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket){
 			if(strpos($packet->command, "/gamerule showcoordinates ") === 0){
+				$player->namedtag->setByte("ShowCoordinates", $value = (int) $packet->command === "/gamerule showcoordinates true");
+
 				$pk = new GameRulesChangedPacket();
 				$pk->gameRules = [
-					"showcoordinates" => [1, $packet->command === "/gamerule showcoordinates true"]
+					"showcoordinates" => [1, $value]
 				];
 				$player->dataPacket($pk);
 
