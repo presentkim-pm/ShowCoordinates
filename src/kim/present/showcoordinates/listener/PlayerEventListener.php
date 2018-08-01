@@ -2,12 +2,11 @@
 
 namespace kim\present\showcoordinates\listener;
 
+use kim\present\showcoordinates\ShowCoordinates;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\network\mcpe\protocol\{
-	CommandRequestPacket, GameRulesChangedPacket
-};
+use pocketmine\network\mcpe\protocol\CommandRequestPacket;
 
 class PlayerEventListener implements Listener{
 	/**
@@ -17,12 +16,7 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-
-		$pk = new GameRulesChangedPacket();
-		$pk->gameRules = [
-			"showcoordinates" => [1, $player->namedtag->getByte("ShowCoordinates", 0)]
-		];
-		$player->dataPacket($pk);
+		ShowCoordinates::setShowCoordinates($player, (bool) $player->namedtag->getByte("ShowCoordinates", 0));
 	}
 
 	/**
@@ -32,16 +26,9 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onDataPacketReceiveEvent(DataPacketReceiveEvent $event) : void{
 		$packet = $event->getPacket();
-		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket){
 			if(strpos($packet->command, "/gamerule showcoordinates ") === 0){
-				$player->namedtag->setByte("ShowCoordinates", $value = (int) $packet->command === "/gamerule showcoordinates true");
-
-				$pk = new GameRulesChangedPacket();
-				$pk->gameRules = [
-					"showcoordinates" => [1, $value]
-				];
-				$player->dataPacket($pk);
+				ShowCoordinates::setShowCoordinates($event->getPlayer(), $packet->command === "/gamerule showcoordinates true");
 
 				$event->setCancelled();
 			}
