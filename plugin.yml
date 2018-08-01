@@ -1,0 +1,14 @@
+---
+name: ShowCoordinates
+main: kim\present\showcoordinates\ShowCoordinates
+version: 0.1.0-DEV
+api: [3.0.0, 3.0.0-ALPHA12, 4.0.0]
+author: PresentKim
+website: https://github.com/PresentKim/ShowCoordinates-PMMP
+description: Implements showcoordinates of gamerule
+
+permissions:
+  gamerules.showcoordinates:
+    description: /gamerules showcoordinates
+    default: true
+...
