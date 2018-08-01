@@ -3,6 +3,7 @@
 namespace kim\present\showcoordinates;
 
 use kim\present\showcoordinates\listener\PlayerEventListener;
+use kim\present\showcoordinates\task\CheckUpdateAsyncTask;
 use pocketmine\network\mcpe\protocol\GameRulesChangedPacket;
 use pocketmine\permission\Permission;
 use pocketmine\Player;
@@ -30,8 +31,13 @@ class ShowCoordinates extends PluginBase{
 	 * Called when the plugin is enabled
 	 */
 	public function onEnable() : void{
-		//Load permission's default value from config
 		$config = $this->getConfig();
+		//Check latest version
+		if($config->getNested("settings.update-check", false)){
+			$this->getServer()->getAsyncPool()->submitTask(new CheckUpdateAsyncTask());
+		}
+
+		//Load permission's default value from config
 		$permissions = $this->getServer()->getPluginManager()->getPermissions();
 		$defaultValue = $config->getNested("permission.main");
 		if($defaultValue !== null){
