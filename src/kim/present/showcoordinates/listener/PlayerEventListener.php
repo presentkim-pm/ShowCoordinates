@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace kim\present\showcoordinates\listener;
 
 use kim\present\showcoordinates\ShowCoordinates;

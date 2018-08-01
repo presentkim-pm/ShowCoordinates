@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace kim\present\showcoordinates;
 
 use kim\present\showcoordinates\listener\PlayerEventListener;
