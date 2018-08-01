@@ -26,8 +26,11 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onDataPacketReceiveEvent(DataPacketReceiveEvent $event) : void{
 		$packet = $event->getPacket();
+		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket && strpos($packet->command, "/gamerule showcoordinates ") === 0){
-			ShowCoordinates::setShowCoordinates($event->getPlayer(), $packet->command === "/gamerule showcoordinates true");
+			if($player->hasPermission("gamerules.showcoordinates")){
+				ShowCoordinates::setShowCoordinates($player, $packet->command === "/gamerule showcoordinates true");
+			}
 
 			$event->setCancelled();
 		}
