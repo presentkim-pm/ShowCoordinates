@@ -8,7 +8,7 @@ use pocketmine\network\mcpe\protocol\{
 	CommandRequestPacket, GameRulesChangedPacket
 };
 
-class PacketListener implements Listener{
+class PlayerEventListener implements Listener{
 	/**
 	 * @priority LOWEST
 	 *

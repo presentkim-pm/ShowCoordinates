@@ -2,7 +2,7 @@
 
 namespace kim\present\showcoordinates;
 
-use kim\present\showcoordinates\listener\PacketListener;
+use kim\present\showcoordinates\listener\PlayerEventListener;
 use pocketmine\plugin\PluginBase;
 
 class ShowCoordinates extends PluginBase{
@@ -11,6 +11,6 @@ class ShowCoordinates extends PluginBase{
 	 */
 	public function onEnable() : void{
 		//Register event listeners
-		$this->getServer()->getPluginManager()->registerEvents(new PacketListener(), $this);
+		$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
 	}
 }
