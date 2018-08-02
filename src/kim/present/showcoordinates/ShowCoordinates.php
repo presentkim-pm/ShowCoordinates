@@ -29,7 +29,9 @@ namespace kim\present\showcoordinates;
 use kim\present\showcoordinates\listener\PlayerEventListener;
 use kim\present\showcoordinates\task\CheckUpdateAsyncTask;
 use pocketmine\network\mcpe\protocol\GameRulesChangedPacket;
-use pocketmine\permission\Permission;
+use pocketmine\permission\{
+	Permission, PermissionManager
+};
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
@@ -62,7 +64,7 @@ class ShowCoordinates extends PluginBase{
 		}
 
 		//Load permission's default value from config
-		$permissions = $this->getServer()->getPluginManager()->getPermissions();
+		$permissions = PermissionManager::getInstance()->getPermissions();
 		$defaultValue = $config->getNested("permission.main");
 		if($defaultValue !== null){
 			$permissions["gamerules.showcoordinates"]->setDefault(Permission::getByName($config->getNested("permission.main")));
