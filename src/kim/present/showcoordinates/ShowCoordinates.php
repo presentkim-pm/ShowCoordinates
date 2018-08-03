@@ -105,6 +105,6 @@ class ShowCoordinates extends PluginBase{
 		$pk->gameRules = [
 			"showcoordinates" => [1, $whether]
 		];
-		$player->dataPacket($pk);
+		$player->sendDataPacket($pk);
 	}
 }
