@@ -1,0 +1,10 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/PresentKim/ShowCoordinates-PMMP
+
+branches:
+- master
+
+projects:
+  ShowCoordinates:
+    path: ""
+    icon: assets/icon/512x512.png
+...
