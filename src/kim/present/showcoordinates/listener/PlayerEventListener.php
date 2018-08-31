@@ -33,6 +33,18 @@ use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\CommandRequestPacket;
 
 class PlayerEventListener implements Listener{
+	/** @var ShowCoordinates */
+	private $owner = null;
+
+	/**
+	 * PlayerEventListener constructor.
+	 *
+	 * @param ShowCoordinates $owner
+	 */
+	public function __construct(ShowCoordinates $owner){
+		$this->owner = $owner;
+	}
+
 	/**
 	 * @priority LOWEST
 	 *
@@ -40,7 +52,7 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		ShowCoordinates::setShowCoordinates($player, (bool) $player->namedtag->getByte(ShowCoordinates::TAG_PLUGIN, 0));
+		$this->owner->setShowCoordinates($player, (bool) $player->namedtag->getByte(ShowCoordinates::TAG_PLUGIN, 0));
 	}
 
 	/**
@@ -53,7 +65,7 @@ class PlayerEventListener implements Listener{
 		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket && strpos($packet->command, "/gamerule showcoordinates ") === 0){
 			if($player->hasPermission("gamerules.showcoordinates")){
-				ShowCoordinates::setShowCoordinates($player, $packet->command === "/gamerule showcoordinates true");
+				$this->owner->setShowCoordinates($player, $packet->command === "/gamerule showcoordinates true");
 			}
 
 			$event->setCancelled();

@@ -71,7 +71,7 @@ class ShowCoordinates extends PluginBase{
 		}
 
 		//Register event listeners
-		$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
+		$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class ShowCoordinates extends PluginBase{
 	 * @param Player $player
 	 * @param bool   $whether
 	 */
-	public final static function setShowCoordinates(Player $player, bool $whether){
+	public function setShowCoordinates(Player $player, bool $whether){
 		$player->namedtag->setByte(self::TAG_PLUGIN, (int) $whether);
 
 		$pk = new GameRulesChangedPacket();
