@@ -104,7 +104,7 @@ class ShowCoordinates extends PluginBase{
 	 *
 	 * @return bool
 	 */
-	public function isShowCoordinates(string $playerName) : bool{
+	public function isEnabledTo(string $playerName) : bool{
 		return file_exists("{$this->getDataFolder()}enabled/" . strtolower($playerName));
 	}
 
@@ -112,7 +112,7 @@ class ShowCoordinates extends PluginBase{
 	 * @param string $playerName
 	 * @param bool   $whether
 	 */
-	public function setShowCoordinates(string $playerName, bool $whether){
+	public function setEnabledTo(string $playerName, bool $whether){
 		$fileName = "{$this->getDataFolder()}enabled/" . strtolower($playerName);
 		if($whether){
 			if(file_exists($fileName)){
@@ -126,10 +126,10 @@ class ShowCoordinates extends PluginBase{
 	/**
 	 * @param Player $player
 	 */
-	public function sendShowCoordinates(Player $player){
+	public function updateGameRule(Player $player){
 		$pk = new GameRulesChangedPacket();
 		$pk->gameRules = [
-			"showcoordinates" => [1, $this->isShowCoordinates($player->getName())]
+			"showcoordinates" => [1, $this->isEnabledTo($player->getName())]
 		];
 		$player->sendDataPacket($pk);
 	}

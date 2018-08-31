@@ -57,12 +57,12 @@ class PlayerEventListener implements Listener{
 		try{
 			$namedtag = $player->getServer()->getOfflinePlayerData($player->getName());
 			if($namedtag->getByte(ShowCoordinates::TAG_PLUGIN)){
-				$this->plugin->setShowCoordinates($player->getName(), true);
+				$this->plugin->setEnabledTo($player->getName(), true);
 			}
 		}catch(\Exception $e){
 		}
 
-		$this->plugin->sendShowCoordinates($player);
+		$this->plugin->updateGameRule($player);
 	}
 
 	/**
@@ -75,8 +75,8 @@ class PlayerEventListener implements Listener{
 		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket && strpos($packet->command, "/gamerule showcoordinates ") === 0){
 			if($player->hasPermission("gamerules.showcoordinates")){
-				$this->plugin->setShowCoordinates($player->getName(), $packet->command === "/gamerule showcoordinates true");
-				$this->plugin->sendShowCoordinates($player);
+				$this->plugin->setEnabledTo($player->getName(), $packet->command === "/gamerule showcoordinates true");
+				$this->plugin->updateGameRule($player);
 			}
 
 			$event->setCancelled();
