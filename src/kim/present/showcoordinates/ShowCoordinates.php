@@ -70,6 +70,11 @@ class ShowCoordinates extends PluginBase{
 			$permissions["gamerules.showcoordinates"]->setDefault(Permission::getByName($config->getNested("permission.main")));
 		}
 
+		//Create enabled data folder
+		if(!file_exists($dataFolder = "{$this->getDataFolder()}enabled/")){
+			mkdir($dataFolder, 0777, true);
+		}
+
 		//Register event listeners
 		$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
 	}
@@ -95,15 +100,36 @@ class ShowCoordinates extends PluginBase{
 	}
 
 	/**
-	 * @param Player $player
+	 * @param string $playerName
+	 *
+	 * @return bool
+	 */
+	public function isShowCoordinates(string $playerName) : bool{
+		return file_exists("{$this->getDataFolder()}enabled/" . strtolower($playerName));
+	}
+
+	/**
+	 * @param string $playerName
 	 * @param bool   $whether
 	 */
-	public function setShowCoordinates(Player $player, bool $whether){
-		$player->namedtag->setByte(self::TAG_PLUGIN, (int) $whether);
+	public function setShowCoordinates(string $playerName, bool $whether){
+		$fileName = "{$this->getDataFolder()}enabled/" . strtolower($playerName);
+		if($whether){
+			if(file_exists($fileName)){
+				unlink($fileName);
+			}
+		}else{
+			file_put_contents($fileName, "");
+		}
+	}
 
+	/**
+	 * @param Player $player
+	 */
+	public function sendShowCoordinates(Player $player){
 		$pk = new GameRulesChangedPacket();
 		$pk->gameRules = [
-			"showcoordinates" => [1, $whether]
+			"showcoordinates" => [1, $this->isShowCoordinates($player)]
 		];
 		$player->sendDataPacket($pk);
 	}

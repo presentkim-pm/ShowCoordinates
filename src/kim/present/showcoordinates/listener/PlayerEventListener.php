@@ -52,7 +52,7 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		$this->owner->setShowCoordinates($player, (bool) $player->namedtag->getByte(ShowCoordinates::TAG_PLUGIN, 0));
+		$this->owner->sendShowCoordinates($player);
 	}
 
 	/**
@@ -65,7 +65,8 @@ class PlayerEventListener implements Listener{
 		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket && strpos($packet->command, "/gamerule showcoordinates ") === 0){
 			if($player->hasPermission("gamerules.showcoordinates")){
-				$this->owner->setShowCoordinates($player, $packet->command === "/gamerule showcoordinates true");
+				$this->owner->setShowCoordinates($player->getName(), $packet->command === "/gamerule showcoordinates true");
+				$this->owner->sendShowCoordinates($player);
 			}
 
 			$event->setCancelled();
