@@ -52,6 +52,16 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
+
+		//Support for older data conversion
+		try{
+			$namedtag = $player->getServer()->getOfflinePlayerData($player->getName());
+			if($namedtag->getByte(ShowCoordinates::TAG_PLUGIN)){
+				$this->owner->setShowCoordinates($player->getName(), true);
+			}
+		}catch(\Exception $e){
+		}
+
 		$this->owner->sendShowCoordinates($player);
 	}
 
