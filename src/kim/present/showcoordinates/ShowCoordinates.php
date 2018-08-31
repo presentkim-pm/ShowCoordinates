@@ -115,11 +115,9 @@ class ShowCoordinates extends PluginBase{
 	public function setEnabledTo(string $playerName, bool $whether){
 		$fileName = "{$this->getDataFolder()}enabled/" . strtolower($playerName);
 		if($whether){
-			if(file_exists($fileName)){
-				unlink($fileName);
-			}
-		}else{
 			file_put_contents($fileName, "");
+		}elseif(file_exists($fileName)){
+			unlink($fileName);
 		}
 	}
 
