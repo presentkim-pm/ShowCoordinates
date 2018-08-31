@@ -34,15 +34,15 @@ use pocketmine\network\mcpe\protocol\CommandRequestPacket;
 
 class PlayerEventListener implements Listener{
 	/** @var ShowCoordinates */
-	private $owner = null;
+	private $plugin;
 
 	/**
 	 * PlayerEventListener constructor.
 	 *
-	 * @param ShowCoordinates $owner
+	 * @param ShowCoordinates $plugin
 	 */
-	public function __construct(ShowCoordinates $owner){
-		$this->owner = $owner;
+	public function __construct(ShowCoordinates $plugin){
+		$this->plugin = $plugin;
 	}
 
 	/**
@@ -57,12 +57,12 @@ class PlayerEventListener implements Listener{
 		try{
 			$namedtag = $player->getServer()->getOfflinePlayerData($player->getName());
 			if($namedtag->getByte(ShowCoordinates::TAG_PLUGIN)){
-				$this->owner->setShowCoordinates($player->getName(), true);
+				$this->plugin->setShowCoordinates($player->getName(), true);
 			}
 		}catch(\Exception $e){
 		}
 
-		$this->owner->sendShowCoordinates($player);
+		$this->plugin->sendShowCoordinates($player);
 	}
 
 	/**
@@ -75,8 +75,8 @@ class PlayerEventListener implements Listener{
 		$player = $event->getPlayer();
 		if($packet instanceof CommandRequestPacket && strpos($packet->command, "/gamerule showcoordinates ") === 0){
 			if($player->hasPermission("gamerules.showcoordinates")){
-				$this->owner->setShowCoordinates($player->getName(), $packet->command === "/gamerule showcoordinates true");
-				$this->owner->sendShowCoordinates($player);
+				$this->plugin->setShowCoordinates($player->getName(), $packet->command === "/gamerule showcoordinates true");
+				$this->plugin->sendShowCoordinates($player);
 			}
 
 			$event->setCancelled();
