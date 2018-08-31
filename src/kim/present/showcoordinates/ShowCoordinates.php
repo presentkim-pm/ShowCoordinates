@@ -129,7 +129,7 @@ class ShowCoordinates extends PluginBase{
 	public function sendShowCoordinates(Player $player){
 		$pk = new GameRulesChangedPacket();
 		$pk->gameRules = [
-			"showcoordinates" => [1, $this->isShowCoordinates($player)]
+			"showcoordinates" => [1, $this->isShowCoordinates($player->getName())]
 		];
 		$player->sendDataPacket($pk);
 	}
